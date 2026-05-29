@@ -26,23 +26,23 @@
             border-radius: 50px;
             text-align: center;
             width: 90%;
-            max-width: 450px;
+            max-width: 500px;
         }
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: #2c2b47;
             margin-bottom: 2rem;
         }
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             flex-wrap: wrap;
         }
         button {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            padding: 10px 25px;
+            padding: 8px 22px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -74,37 +74,41 @@
         }
         .modal-content {
             background: white;
-            padding: 1.8rem;
+            padding: 1.5rem;
             border-radius: 40px;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #b13e6b;
             margin: 20px;
         }
         .modal-content button {
-            margin-top: 15px;
-            font-size: 1rem;
-            padding: 6px 20px;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            padding: 5px 18px;
             background: #ff98b9;
             color: white;
         }
-        .second-buttons {
+        .second-area {
             position: relative;
             min-height: 100px;
+            margin-top: 10px;
+        }
+        .second-buttons {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
+            position: relative;
         }
-        .escape-btn {
-            position: absolute;
-            transition: left 0.08s ease, top 0.08s ease;
+        .escape-yes {
+            position: absolute !important;
+            transition: left 0.1s ease, top 0.1s ease;
         }
         .back-btn {
-            margin-top: 25px;
+            margin-top: 30px;
             background: rgba(255,255,200,0.8);
             font-size: 0.9rem;
-            padding: 6px 18px;
+            padding: 5px 16px;
         }
     </style>
 </head>
@@ -122,7 +126,7 @@
 <!-- Экран 2 -->
 <div class="screen" id="screen2" style="display:none">
     <h1>🤔 Ты уверена со своим выбором? 🤔</h1>
-    <div style="position: relative; min-height: 120px;">
+    <div class="second-area" id="secondArea">
         <div class="second-buttons" id="secondButtons">
             <button class="no" id="btnNo2">😿 НЕТ</button>
             <button class="yes" id="btnYes2">💖 ДА</button>
@@ -132,12 +136,8 @@
 </div>
 
 <!-- Модалки -->
-<div id="modalRefuse" class="modal">
-    <div class="modal-content">🎉 Ура! Поздравляю с отказом (мы оба довольны) 🎉<br><button id="closeRefuse">Окей</button></div>
-</div>
-<div id="modalBye" class="modal">
-    <div class="modal-content">👋 Окей, пока 👋<br><button id="closeBye">✌️</button></div>
-</div>
+<div id="modalRefuse" class="modal"><div class="modal-content">🎉 Ура! Поздравляю с отказом (мы оба довольны) 🎉<br><button id="closeRefuse">Окей</button></div></div>
+<div id="modalBye" class="modal"><div class="modal-content">👋 Окей, пока 👋<br><button id="closeBye">✌️</button></div></div>
 
 <script>
     const screen1 = document.getElementById('screen1');
@@ -147,25 +147,23 @@
     const btnNo2 = document.getElementById('btnNo2');
     const btnYes2 = document.getElementById('btnYes2');
     const backBtn = document.getElementById('backBtn');
-    const container2 = document.getElementById('secondButtons');
+    const secondArea = document.getElementById('secondArea');
 
-    // Модалки
     const modalRefuse = document.getElementById('modalRefuse');
     const modalBye = document.getElementById('modalBye');
     const closeRefuse = document.getElementById('closeRefuse');
     const closeBye = document.getElementById('closeBye');
 
-    // Кнопка НЕТ на экране 1
+    // НЕТ на экране 1
     btnNo1.onclick = () => modalRefuse.style.display = 'flex';
     closeRefuse.onclick = () => modalRefuse.style.display = 'none';
     modalRefuse.onclick = (e) => { if(e.target === modalRefuse) modalRefuse.style.display = 'none'; };
 
-    // Кнопка ДА на экране 1 → экран 2
+    // ДА на экране 1 → экран 2
     btnYes1.onclick = () => {
         screen1.style.display = 'none';
         screen2.style.display = 'block';
-        // Сброс позиции кнопки ДА на экране 2
-        btnYes2.classList.remove('escape-btn');
+        btnYes2.classList.remove('escape-yes');
         btnYes2.style.position = '';
         btnYes2.style.left = '';
         btnYes2.style.top = '';
@@ -175,30 +173,29 @@
     backBtn.onclick = () => {
         screen2.style.display = 'none';
         screen1.style.display = 'block';
-        btnYes2.classList.remove('escape-btn');
+        btnYes2.classList.remove('escape-yes');
         btnYes2.style.position = '';
     };
 
-    // Кнопка НЕТ на экране 2 → окей пока
+    // НЕТ на экране 2
     btnNo2.onclick = () => modalBye.style.display = 'flex';
     closeBye.onclick = () => modalBye.style.display = 'none';
     modalBye.onclick = (e) => { if(e.target === modalBye) modalBye.style.display = 'none'; };
 
-    // Кнопка ДА на экране 2 — телепортируется по всему экрану
+    // ДА на экране 2 — телепорт по всей области secondArea
     function teleportYes() {
-        if (!btnYes2.classList.contains('escape-btn')) {
-            btnYes2.classList.add('escape-btn');
+        if (!btnYes2.classList.contains('escape-yes')) {
+            btnYes2.classList.add('escape-yes');
             btnYes2.style.position = 'absolute';
-            btnYes2.style.margin = '0';
         }
-        const containerRect = container2.getBoundingClientRect();
+        const areaRect = secondArea.getBoundingClientRect();
         const btnRect = btnYes2.getBoundingClientRect();
-        const maxLeft = Math.max(0, containerRect.width - btnRect.width - 10);
-        const maxTop = Math.max(0, containerRect.height - btnRect.height - 10);
-        const left = Math.min(maxLeft, Math.max(0, Math.random() * maxLeft));
-        const top = Math.min(maxTop, Math.max(0, Math.random() * maxTop));
-        btnYes2.style.left = left + 'px';
-        btnYes2.style.top = top + 'px';
+        const maxLeft = Math.max(0, areaRect.width - btnRect.width - 10);
+        const maxTop = Math.max(0, areaRect.height - btnRect.height - 10);
+        const left = Math.random() * maxLeft;
+        const top = Math.random() * maxTop;
+        btnYes2.style.left = Math.min(maxLeft, Math.max(0, left)) + 'px';
+        btnYes2.style.top = Math.min(maxTop, Math.max(0, top)) + 'px';
     }
 
     btnYes2.addEventListener('mouseenter', teleportYes);
