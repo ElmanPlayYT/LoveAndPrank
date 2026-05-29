@@ -11,71 +11,54 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            position: relative;
+            font-family: 'Segoe UI', sans-serif;
         }
-
-        /* Карточка первого экрана */
-        .card {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.25);
+        .screen {
+            background: rgba(255,255,255,0.25);
             backdrop-filter: blur(12px);
-            padding: 2rem 2rem;
-            border-radius: 60px;
+            padding: 2rem;
+            border-radius: 50px;
+            text-align: center;
             width: 90%;
-            max-width: 600px;
+            max-width: 450px;
         }
-
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #2c2b47;
             margin-bottom: 2rem;
         }
-
         .buttons {
-            position: relative;
             display: flex;
-            justify-content: space-between;
-            min-height: 130px;
-            gap: 20px;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
         }
-
         button {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            padding: 12px 28px;
+            padding: 10px 25px;
             border: none;
-            border-radius: 60px;
+            border-radius: 50px;
             cursor: pointer;
-            font-family: inherit;
         }
-
         .yes {
             background: #ffb7c5;
             color: #6b1e3a;
-            box-shadow: 0 5px 0 #b34d6e;
-            transition: 0.05s linear;
+            box-shadow: 0 4px 0 #b34d6e;
         }
-
         .yes:active {
-            transform: translateY(3px);
+            transform: translateY(2px);
         }
-
         .no {
             background: #cbd5e6;
             color: #2d3e50;
-            transition: none;
-            box-shadow: none;
         }
-
-        /* Модальные окна */
         .modal {
             display: none;
             position: fixed;
@@ -83,232 +66,144 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
             backdrop-filter: blur(4px);
             align-items: center;
             justify-content: center;
             z-index: 1000;
         }
-
         .modal-content {
             background: white;
-            padding: 2rem;
+            padding: 1.8rem;
             border-radius: 40px;
             text-align: center;
-            font-size: 1.5rem;
-            color: #b13e6b;
+            font-size: 1.3rem;
             font-weight: bold;
-            max-width: 400px;
+            color: #b13e6b;
             margin: 20px;
         }
-
         .modal-content button {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            padding: 8px 24px;
+            margin-top: 15px;
+            font-size: 1rem;
+            padding: 6px 20px;
             background: #ff98b9;
             color: white;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
         }
-
-        /* Второй экран (изначально скрыт) */
-        .second-screen {
-            display: none;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
-            padding: 2rem 2rem;
-            border-radius: 60px;
-            width: 90%;
-            max-width: 600px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .second-screen h2 {
-            font-size: 1.8rem;
-            color: #2c2b47;
-            margin-bottom: 2rem;
-        }
-
         .second-buttons {
             position: relative;
+            min-height: 100px;
             display: flex;
-            justify-content: space-between;
-            min-height: 130px;
-            gap: 20px;
+            justify-content: center;
+            gap: 30px;
         }
-
-        .btn-second-no {
-            background: #cbd5e6;
-            color: #2d3e50;
-        }
-
-        .btn-second-yes {
-            background: #ffb7c5;
-            color: #6b1e3a;
-            box-shadow: 0 5px 0 #b34d6e;
-        }
-
-        .btn-second-yes.escape-yes {
+        .escape-btn {
             position: absolute;
             transition: left 0.08s ease, top 0.08s ease;
         }
-
         .back-btn {
-            margin-top: 30px;
+            margin-top: 25px;
             background: rgba(255,255,200,0.8);
-            font-size: 1rem;
-            padding: 8px 20px;
+            font-size: 0.9rem;
+            padding: 6px 18px;
         }
     </style>
 </head>
 <body>
 
-<!-- ПЕРВЫЙ ЭКРАН -->
-<div class="card" id="firstScreen">
+<!-- Экран 1 -->
+<div class="screen" id="screen1">
     <h1>✨ Ты пойдёшь со мной на свидание? ✨</h1>
-    <div class="buttons" id="buttons">
-        <button class="yes" id="yesBtn">💖 ДА 💖</button>
-        <button class="no" id="noBtn">💩 НЕТ 💩</button>
+    <div class="buttons">
+        <button class="yes" id="btnYes1">💖 ДА</button>
+        <button class="no" id="btnNo1">💩 НЕТ</button>
     </div>
 </div>
 
-<!-- ВТОРОЙ ЭКРАН (появляется при нажатии ДА) -->
-<div class="second-screen" id="secondScreen">
-    <h2>🤔 Ты уверена со своим выбором? 🤔</h2>
-    <div class="second-buttons" id="secondButtons">
-        <button class="btn-second-no" id="secondNoBtn">😿 НЕТ</button>
-        <button class="btn-second-yes" id="secondYesBtn">💖 ДА</button>
+<!-- Экран 2 -->
+<div class="screen" id="screen2" style="display:none">
+    <h1>🤔 Ты уверена со своим выбором? 🤔</h1>
+    <div style="position: relative; min-height: 120px;">
+        <div class="second-buttons" id="secondButtons">
+            <button class="no" id="btnNo2">😿 НЕТ</button>
+            <button class="yes" id="btnYes2">💖 ДА</button>
+        </div>
     </div>
     <button class="back-btn" id="backBtn">⬅️ Назад</button>
 </div>
 
-<!-- МОДАЛКИ -->
-<div id="refuseModal" class="modal">
-    <div class="modal-content">
-        🎉 Ура! Поздравляю с отказом (мы оба довольны) 🎉
-        <button id="closeRefuseModal">😎 Окей</button>
-    </div>
+<!-- Модалки -->
+<div id="modalRefuse" class="modal">
+    <div class="modal-content">🎉 Ура! Поздравляю с отказом (мы оба довольны) 🎉<br><button id="closeRefuse">Окей</button></div>
 </div>
-
-<div id="byeModal" class="modal">
-    <div class="modal-content">
-        👋 Окей, пока 👋
-        <button id="closeByeModal">✌️</button>
-    </div>
+<div id="modalBye" class="modal">
+    <div class="modal-content">👋 Окей, пока 👋<br><button id="closeBye">✌️</button></div>
 </div>
 
 <script>
-    (function() {
-        // === ЭЛЕМЕНТЫ ===
-        const firstScreen = document.getElementById('firstScreen');
-        const secondScreen = document.getElementById('secondScreen');
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        const secondYesBtn = document.getElementById('secondYesBtn');
-        const secondNoBtn = document.getElementById('secondNoBtn');
-        const backBtn = document.getElementById('backBtn');
-        
-        const refuseModal = document.getElementById('refuseModal');
-        const closeRefuse = document.getElementById('closeRefuseModal');
-        const byeModal = document.getElementById('byeModal');
-        const closeBye = document.getElementById('closeByeModal');
-        
-        const secondContainer = document.getElementById('secondButtons');
+    const screen1 = document.getElementById('screen1');
+    const screen2 = document.getElementById('screen2');
+    const btnYes1 = document.getElementById('btnYes1');
+    const btnNo1 = document.getElementById('btnNo1');
+    const btnNo2 = document.getElementById('btnNo2');
+    const btnYes2 = document.getElementById('btnYes2');
+    const backBtn = document.getElementById('backBtn');
+    const container2 = document.getElementById('secondButtons');
 
-        // === 1. Кнопка «НЕТ» на первом экране → окно с отказом ===
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            refuseModal.style.display = 'flex';
-        });
-        closeRefuse.addEventListener('click', () => {
-            refuseModal.style.display = 'none';
-        });
-        refuseModal.addEventListener('click', (e) => {
-            if (e.target === refuseModal) refuseModal.style.display = 'none';
-        });
+    // Модалки
+    const modalRefuse = document.getElementById('modalRefuse');
+    const modalBye = document.getElementById('modalBye');
+    const closeRefuse = document.getElementById('closeRefuse');
+    const closeBye = document.getElementById('closeBye');
 
-        // === 2. Кнопка «ДА» на первом экране → открываем второй экран ===
-        yesBtn.addEventListener('click', () => {
-            firstScreen.style.display = 'none';
-            secondScreen.style.display = 'flex';
-        });
+    // Кнопка НЕТ на экране 1
+    btnNo1.onclick = () => modalRefuse.style.display = 'flex';
+    closeRefuse.onclick = () => modalRefuse.style.display = 'none';
+    modalRefuse.onclick = (e) => { if(e.target === modalRefuse) modalRefuse.style.display = 'none'; };
 
-        // === 3. Назад на первый экран ===
-        backBtn.addEventListener('click', () => {
-            secondScreen.style.display = 'none';
-            firstScreen.style.display = 'flex';
-            // Сбрасываем позицию кнопки "ДА" на втором экране, если она убежала
-            if (secondYesBtn.classList.contains('escape-yes')) {
-                secondYesBtn.classList.remove('escape-yes');
-                secondYesBtn.style.position = '';
-                secondYesBtn.style.left = '';
-                secondYesBtn.style.top = '';
-                secondYesBtn.style.margin = '';
-            }
-        });
+    // Кнопка ДА на экране 1 → экран 2
+    btnYes1.onclick = () => {
+        screen1.style.display = 'none';
+        screen2.style.display = 'block';
+        // Сброс позиции кнопки ДА на экране 2
+        btnYes2.classList.remove('escape-btn');
+        btnYes2.style.position = '';
+        btnYes2.style.left = '';
+        btnYes2.style.top = '';
+    };
 
-        // === 4. Кнопка «НЕТ» на втором экране → окно «Окей, пока» ===
-        secondNoBtn.addEventListener('click', () => {
-            byeModal.style.display = 'flex';
-        });
-        closeBye.addEventListener('click', () => {
-            byeModal.style.display = 'none';
-        });
-        byeModal.addEventListener('click', (e) => {
-            if (e.target === byeModal) byeModal.style.display = 'none';
-        });
+    // Назад
+    backBtn.onclick = () => {
+        screen2.style.display = 'none';
+        screen1.style.display = 'block';
+        btnYes2.classList.remove('escape-btn');
+        btnYes2.style.position = '';
+    };
 
-        // === 5. Кнопка «ДА» на втором экране — телепортируется! ===
-        function getRandomPositionSecond(btn, container) {
-            const containerRect = container.getBoundingClientRect();
-            const btnRect = btn.getBoundingClientRect();
-            const maxLeft = Math.max(5, containerRect.width - btnRect.width - 10);
-            const maxTop = Math.max(5, containerRect.height - btnRect.height - 10);
-            if (maxLeft <= 0 || maxTop <= 0) return { left: 5, top: 5 };
-            return {
-                left: Math.random() * maxLeft,
-                top: Math.random() * maxTop
-            };
+    // Кнопка НЕТ на экране 2 → окей пока
+    btnNo2.onclick = () => modalBye.style.display = 'flex';
+    closeBye.onclick = () => modalBye.style.display = 'none';
+    modalBye.onclick = (e) => { if(e.target === modalBye) modalBye.style.display = 'none'; };
+
+    // Кнопка ДА на экране 2 — телепортируется по всему экрану
+    function teleportYes() {
+        if (!btnYes2.classList.contains('escape-btn')) {
+            btnYes2.classList.add('escape-btn');
+            btnYes2.style.position = 'absolute';
+            btnYes2.style.margin = '0';
         }
+        const containerRect = container2.getBoundingClientRect();
+        const btnRect = btnYes2.getBoundingClientRect();
+        const maxLeft = Math.max(0, containerRect.width - btnRect.width - 10);
+        const maxTop = Math.max(0, containerRect.height - btnRect.height - 10);
+        const left = Math.min(maxLeft, Math.max(0, Math.random() * maxLeft));
+        const top = Math.min(maxTop, Math.max(0, Math.random() * maxTop));
+        btnYes2.style.left = left + 'px';
+        btnYes2.style.top = top + 'px';
+    }
 
-        function teleportYesButton() {
-            if (!secondYesBtn.classList.contains('escape-yes')) {
-                secondYesBtn.classList.add('escape-yes');
-                secondYesBtn.style.position = 'absolute';
-                secondYesBtn.style.margin = '0';
-            }
-            const pos = getRandomPositionSecond(secondYesBtn, secondContainer);
-            secondYesBtn.style.left = pos.left + 'px';
-            secondYesBtn.style.top = pos.top + 'px';
-        }
-
-        // При попытке нажать, навести, коснуться — телепортация
-        secondYesBtn.addEventListener('mouseenter', teleportYesButton);
-        secondYesBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            teleportYesButton();
-            return false;
-        });
-        secondYesBtn.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            teleportYesButton();
-            return false;
-        });
-        secondYesBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            teleportYesButton();
-            return false;
-        });
-
-        // Немного стиля для кнопки "НЕТ" на втором экране (убираем эффект нажатия)
-        secondNoBtn.style.transition = 'none';
-        secondNoBtn.style.boxShadow = 'none';
-    })();
+    btnYes2.addEventListener('mouseenter', teleportYes);
+    btnYes2.addEventListener('click', (e) => { e.preventDefault(); teleportYes(); });
+    btnYes2.addEventListener('touchstart', (e) => { e.preventDefault(); teleportYes(); });
 </script>
 </body>
-  </html>
+</html>
